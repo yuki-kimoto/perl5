@@ -2,10 +2,13 @@
  $Id: Unicode.xs,v 2.18 2018/04/22 09:02:00 dankogai Exp $
  */
 
+#define IN_UNICODE_XS
+
 #define PERL_NO_GET_CONTEXT
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
+#include "../ppport.h"
 #include "../Encode/encode.h"
 
 #define FBCHAR			0xFFFd
@@ -62,6 +65,7 @@ enc_unpack(pTHX_ U8 **sp, U8 *e, STRLEN size, U8 endian)
     case 'N':
 	v = *s++;
 	v = (v << 8) | *s++;
+        /* FALLTHROUGH */
     case 'n':
 	v = (v << 8) | *s++;
 	v = (v << 8) | *s++;
@@ -222,6 +226,7 @@ CODE:
     while (s < e && s+size <= e) {
 	UV ord = enc_unpack(aTHX_ &s,e,size,endian);
 	U8 *d;
+        HV *hv = NULL;
 	if (issurrogate(ord)) {
 	    if (ucs2 == -1) {
 		SV *sv = attr("ucs2");
@@ -321,12 +326,11 @@ CODE:
 	    resultbuflen = SvLEN(result);
 	}
 
-        HV *hv = NULL;
         d = uvchr_to_utf8_flags_msgs(resultbuf+SvCUR(result), ord, UNICODE_DISALLOW_ILLEGAL_INTERCHANGE | UNICODE_WARN_ILLEGAL_INTERCHANGE, &hv);
         if (hv) {
-            sv_2mortal((SV *)hv);
             SV *message = *hv_fetch(hv, "text", 4, 0);
             U32 categories = SvUVx(*hv_fetch(hv, "warn_categories", 15, 0));
+            sv_2mortal((SV *)hv);
             if (check & ENCODE_DIE_ON_ERR)
                 croak("%" SVf, SVfARG(message));
             if (encode_ckWARN_packed(check, categories))

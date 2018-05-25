@@ -1,11 +1,5 @@
 use strict;
 use warnings;
-BEGIN {
-    if ($] < 5.014){
-        print "1..0 # Skip: Perl 5.14.0 or later required\n";
-        exit 0;
-    }
-}
 
 my $script = quotemeta $0;
 
