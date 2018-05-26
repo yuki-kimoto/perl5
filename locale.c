@@ -5193,9 +5193,7 @@ Perl_my_strerror(pTHX_ const int errnum)
     LOCALE_UNLOCK;
 
 #  endif /* End of doesn't have strerror_l */
-#endif   /* End of does have locale messages */
-
-#ifdef DEBUGGING
+#  ifdef DEBUGGING
 
     if (DEBUG_Lv_TEST) {
         PerlIO_printf(Perl_debug_log, "Strerror returned; saving a copy: '");
@@ -5203,7 +5201,8 @@ Perl_my_strerror(pTHX_ const int errnum)
         PerlIO_printf(Perl_debug_log, "'\n");
     }
 
-#endif
+#  endif
+#endif   /* End of does have locale messages */
 
     SAVEFREEPV(errstr);
     return errstr;
