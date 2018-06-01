@@ -6,6 +6,7 @@
 #
 
 cpan/DB_File
+cpan/Encode
 cpan/IPC-SysV
 cpan/Scalar-List-Utils
 cpan/Win32API-File
