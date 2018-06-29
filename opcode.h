@@ -333,7 +333,6 @@ EXTCONST char* const PL_op_name[] = {
 	"entersub",
 	"leavesub",
 	"leavesublv",
-	"argcheck",
 	"argelem",
 	"argdefelem",
 	"caller",
@@ -738,7 +737,6 @@ EXTCONST char* const PL_op_desc[] = {
 	"subroutine entry",
 	"subroutine exit",
 	"lvalue subroutine return",
-	"check subroutine arguments",
 	"subroutine argument",
 	"subroutine argument default value",
 	"caller",
@@ -1155,7 +1153,6 @@ EXT Perl_ppaddr_t PL_ppaddr[] /* or perlvars.h */
 	Perl_pp_entersub,
 	Perl_pp_leavesub,
 	Perl_pp_leavesublv,
-	Perl_pp_argcheck,
 	Perl_pp_argelem,
 	Perl_pp_argdefelem,
 	Perl_pp_caller,
@@ -1568,7 +1565,6 @@ EXT Perl_check_t PL_check[] /* or perlvars.h */
 	Perl_ck_subr,		/* entersub */
 	Perl_ck_null,		/* leavesub */
 	Perl_ck_null,		/* leavesublv */
-	Perl_ck_null,		/* argcheck */
 	Perl_ck_null,		/* argelem */
 	Perl_ck_null,		/* argdefelem */
 	Perl_ck_fun,		/* caller */
@@ -1977,7 +1973,6 @@ EXTCONST U32 PL_opargs[] = {
 	0x00002141,	/* entersub */
 	0x00000100,	/* leavesub */
 	0x00000100,	/* leavesublv */
-	0x00000f00,	/* argcheck */
 	0x00000f00,	/* argelem */
 	0x00000300,	/* argdefelem */
 	0x00009b08,	/* caller */
@@ -2645,7 +2640,6 @@ EXTCONST I16  PL_op_private_bitdef_ix[] = {
      167, /* entersub */
      174, /* leavesub */
      174, /* leavesublv */
-       0, /* argcheck */
      176, /* argelem */
        0, /* argdefelem */
      178, /* caller */
@@ -2873,7 +2867,7 @@ EXTCONST I16  PL_op_private_bitdef_ix[] = {
  */
 
 EXTCONST U16  PL_op_private_bitdefs[] = {
-    0x0003, /* scalar, prototype, refgen, srefgen, readline, regcmaybe, regcreset, regcomp, substcont, chop, schop, defined, undef, study, preinc, i_preinc, predec, i_predec, postinc, i_postinc, postdec, i_postdec, negate, i_negate, not, complement, ucfirst, lcfirst, uc, lc, quotemeta, aeach, avalues, each, pop, shift, grepstart, mapstart, mapwhile, range, and, or, dor, andassign, orassign, dorassign, argcheck, argdefelem, method, method_named, method_super, method_redir, method_redir_super, entergiven, leavegiven, enterwhen, leavewhen, untie, tied, dbmclose, getsockname, getpeername, lstat, stat, readlink, readdir, telldir, rewinddir, closedir, localtime, alarm, require, dofile, entertry, ghbyname, gnbyname, gpbyname, shostent, snetent, sprotoent, sservent, gpwnam, gpwuid, ggrnam, ggrgid, lock, once, fc, anonconst */
+    0x0003, /* scalar, prototype, refgen, srefgen, readline, regcmaybe, regcreset, regcomp, substcont, chop, schop, defined, undef, study, preinc, i_preinc, predec, i_predec, postinc, i_postinc, postdec, i_postdec, negate, i_negate, not, complement, ucfirst, lcfirst, uc, lc, quotemeta, aeach, avalues, each, pop, shift, grepstart, mapstart, mapwhile, range, and, or, dor, andassign, orassign, dorassign, argdefelem, method, method_named, method_super, method_redir, method_redir_super, entergiven, leavegiven, enterwhen, leavewhen, untie, tied, dbmclose, getsockname, getpeername, lstat, stat, readlink, readdir, telldir, rewinddir, closedir, localtime, alarm, require, dofile, entertry, ghbyname, gnbyname, gpbyname, shostent, snetent, sprotoent, sservent, gpwnam, gpwuid, ggrnam, ggrgid, lock, once, fc, anonconst */
     0x2f3c, 0x4119, /* pushmark */
     0x00bd, /* wantarray, runcv */
     0x0578, 0x19b0, 0x41cc, 0x3c88, 0x3465, /* const */
@@ -3138,7 +3132,6 @@ EXTCONST U8 PL_op_private_valid[] = {
     /* ENTERSUB   */ (OPpENTERSUB_INARGS|OPpHINT_STRICT_REFS|OPpENTERSUB_HASTARG|OPpENTERSUB_AMPER|OPpDEREF|OPpENTERSUB_DB|OPpLVAL_INTRO),
     /* LEAVESUB   */ (OPpARG1_MASK|OPpREFCOUNTED),
     /* LEAVESUBLV */ (OPpARG1_MASK|OPpREFCOUNTED),
-    /* ARGCHECK   */ (OPpARG1_MASK),
     /* ARGELEM    */ (OPpARG1_MASK|OPpARGELEM_MASK),
     /* ARGDEFELEM */ (OPpARG1_MASK),
     /* CALLER     */ (OPpARG4_MASK|OPpOFFBYONE),

@@ -260,7 +260,6 @@ $bits{andassign}{0} = $bf[0];
 $bits{anonconst}{0} = $bf[0];
 @{$bits{anonhash}}{3,2,1,0} = ($bf[4], $bf[4], $bf[4], $bf[4]);
 @{$bits{anonlist}}{3,2,1,0} = ($bf[4], $bf[4], $bf[4], $bf[4]);
-$bits{argcheck}{0} = $bf[0];
 $bits{argdefelem}{0} = $bf[0];
 @{$bits{argelem}}{2,1,0} = ($bf[7], $bf[7], $bf[0]);
 @{$bits{atan2}}{3,2,1,0} = ($bf[4], $bf[4], $bf[4], $bf[4]);

@@ -1074,10 +1074,6 @@ Perl_op_clear(pTHX_ OP *o)
 
 	break;
 
-    case OP_ARGCHECK:
-        PerlMemShared_free(cUNOP_AUXo->op_aux);
-        break;
-
     case OP_MULTICONCAT:
         {
             UNOP_AUX_item *aux = cUNOP_AUXo->op_aux;

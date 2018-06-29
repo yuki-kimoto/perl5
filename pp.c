@@ -6839,40 +6839,6 @@ S_find_runcv_name(void)
     return sv;
 }
 
-/* Check a  a subs arguments - i.e. that it has the correct number of args
- * (and anything else we might think of in future). Typically used with
- * signatured subs.
- */
-
-PP(pp_argcheck)
-{
-    OP * const o       = PL_op;
-    UNOP_AUX_item *aux = cUNOP_AUXo->op_aux;
-    IV   params        = aux[0].iv;
-    IV   opt_params    = aux[1].iv;
-    char slurpy        = (char)(aux[2].iv);
-    AV  *defav         = GvAV(PL_defgv); /* @_ */
-    IV   argc;
-    bool too_few;
-
-    assert(!SvMAGICAL(defav));
-    argc = (AvFILLp(defav) + 1);
-    too_few = (argc < (params - opt_params));
-
-    if (UNLIKELY(too_few || (!slurpy && argc > params)))
-        /* diag_listed_as: Too few arguments for subroutine '%s' */
-        /* diag_listed_as: Too many arguments for subroutine '%s' */
-        Perl_croak_caller("Too %s arguments for subroutine '%" SVf "'",
-                          too_few ? "few" : "many", S_find_runcv_name());
-
-    if (UNLIKELY(slurpy == '%' && argc > params && (argc - params) % 2))
-        /* diag_listed_as: Odd name/value argument for subroutine '%s' */
-        Perl_croak_caller("Odd name/value argument for subroutine '%" SVf "'",
-                          S_find_runcv_name());
-
-    return NORMAL;
-}
-
 /*
  * ex: set ts=8 sts=4 sw=4 et:
  */

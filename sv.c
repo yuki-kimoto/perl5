@@ -13438,8 +13438,6 @@ Perl_parser_dup(pTHX_ const yy_parser *const proto, CLONE_PARAMS *const param)
     parser->in_my_stash	= hv_dup(proto->in_my_stash, param);
     parser->error_count	= proto->error_count;
     parser->sig_elems	= proto->sig_elems;
-    parser->sig_optelems= proto->sig_optelems;
-    parser->sig_slurpy  = proto->sig_slurpy;
     parser->recheck_utf8_validity = proto->recheck_utf8_validity;
 
     {

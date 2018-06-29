@@ -1177,7 +1177,7 @@ sub pad_subs {
 }
 
 
-# deparse_argops(): deparse, if possible, a sequence of argcheck + argelem
+# deparse_argops(): deparse, if possible, a sequence of argelem
 # ops into a subroutine signature. If successful, return the first op
 # following the signature ops plus the signature string; else return the
 # empty list.
@@ -1187,7 +1187,7 @@ sub pad_subs {
 # or altered. In this case we return "()" and fall back to general
 # deparsing of the individual sigelems as 'my $x = $_[N]' etc.
 #
-# We're only called if the first two ops are nextstate and argcheck.
+# We're only called if the first two ops are nextstate.
 
 sub deparse_argops {
     my ($self, $firstop, $cv) = @_;
@@ -1326,13 +1326,6 @@ Carp::confess("SPECIAL in deparse_sub") if $cv->isa("B::SPECIAL");
                      and (($o2 = $firstop->sibling))
                      and $$o2)
                 {
-                    if ($o2->name eq 'argcheck') {
-                        my ($nexto, $mysig) = $self->deparse_argops($firstop, $cv);
-                        if (defined $nexto) {
-                            $firstop = $nexto;
-                            $sig = $mysig;
-                        }
-                    }
                 }
             }
 
@@ -6377,32 +6370,6 @@ sub pp_lvavref {
 		? maybe_local(@_, rv2x(@_, "\@"))
 		: &pp_padsv)  . ')'
 }
-
-
-sub pp_argcheck {
-    my $self = shift;
-    my($op, $cx) = @_;
-    my ($params, $opt_params, $slurpy) = $op->aux_list($self->{curcv});
-    my $mandatory = $params - $opt_params;
-    my $check = '';
-
-    $check .= <<EOF if !$slurpy;
-die sprintf("Too many arguments for subroutine at %s line %d.\\n", (caller)[1, 2]) unless \@_ <= $params;
-EOF
-
-    $check .= <<EOF if $mandatory > 0;
-die sprintf("Too few arguments for subroutine at %s line %d.\\n", (caller)[1, 2]) unless \@_ >= $mandatory;
-EOF
-
-    my $cond = ($params & 1) ? 'unless' : 'if';
-    $check .= <<EOF if $slurpy eq '%';
-die sprintf("Odd name/value argument for subroutine at %s line %d.\\n", (caller)[1, 2]) if \@_ > $params && ((\@_ - $params) & 1);
-EOF
-
-    $check =~ s/;\n\z//;
-    return $check;
-}
-
 
 sub pp_argelem {
     my $self = shift;
